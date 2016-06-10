@@ -1,0 +1,17 @@
+{% extends "cabinet/cabinet.html" %}
+
+{% block content %}
+	<h1><a class="orange" href="/cabinet/bb/">Баннеры дилера</a> <span class="blue">Редактировать баннер</span></h1>
+	<div class="area">
+		<a href="/cabinet/bb/del/{{ dsbb.id }}/" onclick="return confirm('Вы уверены?')"><h4 class="mbottom">Удалить баннер</h4></a>
+		
+		<div class="markItUp">
+			<form id="account" action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+				<table>
+					{{ aform.as_table }}
+				</table>
+				<input type="submit" value="Сохранить" />
+			</form>
+		</div>
+	</div>
+{% endblock%}

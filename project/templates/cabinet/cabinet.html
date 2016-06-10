@@ -1,0 +1,53 @@
+{% extends "default.html" %}
+
+{% block title %}Личный кабинет дилера{% endblock %}
+
+{% block ext_js %}{% endblock %}
+
+{% block content %}
+	<h1>Профиль дилера</h1>
+	<div class="area">
+		<a href="/dealer/{{ ds.id }}/{{ ds.slug }}/"><h4 class="mbottom">Показать в каталоге</h4></a>
+		
+		<div class="markItUp">
+			<form id="account" action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+				<table>
+					{{ aform.as_table }}
+				</table>
+				<input type="submit" value="Сохранить" />
+			</form>
+		</div>
+	</div>
+{% endblock%}
+
+{% block right %}
+	<div class="row">
+		<h4 class="mlbottom">Навигация</h4>
+		<div class="mlbottom" style="margin-left:15px;">
+			<ul>
+				<li {% ifequal a1 1 %}class="a1active"{% endifequal %}><a href="/cabinet/">Профиль</a></li>
+				<li {% ifequal a1 2 %}class="a1active"{% endifequal %}><a href="/cabinet/passwd/">Сменить пароль</a></li>
+				<li {% ifequal a1 3 %}class="a1active"{% endifequal %}><a href="/cabinet/pay/">Платежи</a></li>
+				<li {% ifequal a1 4 %}class="a1active"{% endifequal %}><a href="/cabinet/blog/">Блог</a> {% if new_comments %}({{ new_comments }}){% endif %}</li>
+				<li {% ifequal a1 5 %}class="a1active"{% endifequal %}><a href="/cabinet/bb/">Баннеры</a></li>
+				<li {% ifequal a1 6 %}class="a1active"{% endifequal %}><a href="/cabinet/for-dealer/">Для дилеров</a></li>
+				<li {% ifequal a1 7 %}class="a1active"{% endifequal %}><a href="/cabinet/bookmark/">Закладки</a></li>
+				<li {% ifequal a1 8 %}class="a1active"{% endifequal %}><a href="/cabinet/partner/">Партнеры</a></li>
+				<li {% ifequal a1 9 %}class="a1active"{% endifequal %}><a href="/cabinet/message/">Переписка</a> {% if new_messages %}({{ new_messages }}){% endif %}</li>
+			</ul>
+		</div>
+	</div>
+		
+	{% if seanses %}
+		<div class="row">
+			<h4 class="mlbottom">Последние сеансы</h4>
+			<div class="mlbottom">
+				{% for seanse in seanses %}
+					<div style="background:{% cycle "" "white" %}">
+						<strong style="margin:10px 5px 10px 5px">{{ seanse.date|date:"d.m.Y H:m" }}</strong> <strong>IP: {{ seanse.ip }}</strong>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	{% endif %}
+{% endblock %}

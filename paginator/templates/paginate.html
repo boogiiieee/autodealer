@@ -1,0 +1,19 @@
+{% load paginate %}
+
+{% if is_paginated %}
+	{% paginate_split_list page_range page %}
+	
+	<h3>
+		Страницы:&nbsp;
+		{% for interval,more in paginate_page_range %}
+			{% for p in interval %}
+				{% ifequal p page %}
+					<span class="blue">{{ p }}</span>
+				{% else %}
+					<a class="orange" href="{{ href }}?page={{ p }}{{ get }}">{{ p }}</a>
+				{% endifequal %}
+			{% endfor %}
+			{% if more %}&nbsp; ... &nbsp;{% endif %}
+		{% endfor %}
+	</h3>
+{% endif %}

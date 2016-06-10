@@ -1,0 +1,23 @@
+{% extends "cabinet/cabinet.html" %}
+{% load thumbnail %}
+
+{% block content %}
+	<h1>Партнеры</h1>
+	<div class="area">
+		{% if dsp_list %}
+			<div>
+				<div class="mbottom">
+					{% for item in dsp_list %}
+						<p>
+							<a class="none_underl" href="/dealer/{{ item.pdealer.id }}/{{ item.pdealer.slug }}/"><h3>{{ item.pdealer.title }} ({{ item.date|date:"d.m.Y H:m" }})</h3></a>
+							<a class="orange" href="/cabinet/partner/del/{{ item.id }}/" onclick="return confirm('Вы уверены?')">удалить</a>
+							<a class="orange" href="/cabinet/message/{{ item.pdealer.id }}/">написать сообщение</a>
+						</p>
+					{% endfor %}
+				</div>
+			</div>
+		{% else %}
+			<h4>Партнеров нет</h4>
+		{% endif %}
+	</div>
+{% endblock%}

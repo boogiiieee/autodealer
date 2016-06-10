@@ -1,0 +1,110 @@
+{% extends "default.html" %}
+{% load thumbnail %}
+{% load markup %}
+
+{% block title %}Блог дилера{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="{{ MEDIA_URL }}js/js_for_form.js"></script>
+{% endblock %}
+
+{% block content %}
+	<h1>Блог <a class="blue" href="/dealer/{{ blog.dealer.id }}/{{ blog.dealer.slug }}/">{{ blog.dealer.title }}</a></h1>
+	<div class="area">
+		{% if dealer.image or dealer.adr or dealer.phone or dealer.email %}
+			<div class="mbottom">
+				{% if dealer.image %}
+					<div class="r1border leftimg">
+						{% thumbnail dealer.image "250" crop="center" format='PNG' as im %}
+							<img src="{{ im.url }}" alt="{{ dealer.title }}" />
+						{% endthumbnail %}
+					</div>
+				{% endif %}
+
+				{% if dealer.adr %}
+					<div>
+						<strong>Адрес:</strong> {{ dealer.adr }}
+					</div>
+				{% endif %}
+				{% if dealer.phone %}
+					<div>
+						<strong>Телефон:</strong> {{ dealer.phone }}
+					</div>
+				{% endif %}
+				{% if dealer.email %}
+					<div>
+						<strong>E-mail:</strong> {{ dealer.email }}
+					</div>
+				{% endif %}
+				<div class="clr">&nbsp;</div>
+				<div class="dunderline">&nbsp;</div>
+			</div>
+			
+			<h2>{{ blog.title }}</h2>
+			<div class="mbottom">
+				{{ blog.text|force_escape|markdown }}
+			</div>
+				
+			{% if comments_list %}
+				<div class="wide_block mtop pr">
+					<h2 class="mbottom">Комментарии</h2>
+					{% for comment in comments_list %}
+						<a class="none_underl"><h3>{{ comment.name }} <small>| {{ comment.date|date:"d.m.Y H:m" }}</small></h3></a>
+						<p>
+							{{ comment.text|linebreaksbr }}
+						</p>
+					{% endfor %}
+					{% include "paginate.html" %}
+				</div>
+			{% endif %}
+			
+			<div class="wide_block mtop pr">
+				<h2 class="mbottom">Добавить комментарий</h2>
+				<div>
+					<form action="" method="post">{% csrf_token %}
+						<table width="100%" id="comments">
+							<tr>
+								<td valign="top">
+									<div>
+										{% if bform.name.errors %}{{ bform.name.errors }}{% endif %}
+										<p>{{ bform.name }}</p>
+									</div>
+									<div>
+										{% if bform.email.errors %}{{ bform.email.errors }}{% endif %}
+										<p>{{ bform.email }}</p>
+									</div>
+									<div>
+										{% if bform.phone.errors %}{{ bform.phone.errors }}{% endif %}
+										<p>{{ bform.phone }}</p>
+									</div>
+									<div>
+										{% if bform.org.errors %}{{ bform.org.errors }}{% endif %}
+										<p>{{ bform.org }}</p>
+									</div>
+									<div>
+										{% if bform.post.errors %}{{ bform.post.errors }}{% endif %}
+										<p>{{ bform.post }}</p>
+									</div>
+									<div>
+										{% if bform.captcha.errors %}{{ bform.captcha.errors }}{% endif %}
+										<p>{{ bform.captcha }}</p>
+									</div>
+								</td>
+								<td valign="top">
+									<div style="margin-left:10px;">
+										{% if bform.text.errors %}{{ bform.text.errors }}{% endif %}
+										<p>{{ bform.text }}</p>
+										<p>* Поля, отмеченные звездочкой, обязательны для заполнения.</p>
+									</div>
+								</td>
+							</tr>
+						</table>
+						<input type="submit" value="Отправить"/>
+					</form>
+				</div>
+			</div>
+		{% else %}
+			<h4>Раздел в разработке</h4>
+		{% endif %}
+	</div>
+{% endblock%}

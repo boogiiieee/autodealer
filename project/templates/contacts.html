@@ -1,0 +1,41 @@
+{% extends "default.html" %}
+
+{% block title %}Контактная информация{% endblock %}
+
+{% block content %}
+	<h1>Контактная информация</h1>
+	<div class="area">
+		<div>
+			<h3 class="mlbottom">Россия, Томская обл., г.Томск, Московский тр-т., 2/7</h3>
+			
+			<div class="mlbottom">
+				<table>
+					<tr>
+						<td valign="top"><h3>Контактное лицо</h3></td>
+						<td valign="top">
+							<ul>
+								<li><strong>Гладкий Владимир</strong></li>
+								<li>+7 (913) 888-4440</li>
+								<li><a href="mailto:gladkiyva@gmail.com">GladkiyVA@gmail.com</a></li>
+							</ul>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<div class="mlbottom pr r1border" style="height:200px">
+				<!-- Этот блок кода нужно вставить в ту часть страницы, где вы хотите разместить карту (начало) -->
+				<div id="ymaps-map-id_1339040256504731510156" style="width: 700px; height: 200px;"></div>
+				<!--div style="width: 700px; text-align: right;"><a href="http://api.yandex.ru/maps/tools/constructor/?lang=ru-RU" target="_blank" style="color: #1A3DC1; font: 13px Arial,Helvetica,sans-serif;">Создано с помощью инструментов Яндекс.Карт</a></div-->
+				<script type="text/javascript">function fid_1339040256504731510156(ymaps) {var map = new ymaps.Map("ymaps-map-id_1339040256504731510156", {center: [84.94347768422112, 56.471587328078705], zoom: 17, type: "yandex#map"});map.controls.add("zoomControl").add("mapTools").add(new ymaps.control.TypeSelector(["yandex#map", "yandex#satellite", "yandex#hybrid", "yandex#publicMap"]));map.geoObjects.add(new ymaps.Placemark([84.94411068554864, 56.471370580885406], {balloonContent: "Web-aspect<br/>время работы: пн.-пт. с 09:00-18:00"}, {preset: "twirl#lightblueDotIcon"}));};</script>
+				<script type="text/javascript" src="http://api-maps.yandex.ru/2.0/?coordorder=longlat&load=package.full&wizard=constructor&lang=ru-RU&onload=fid_1339040256504731510156"></script>
+				<!-- Этот блок кода нужно вставить в ту часть страницы, где вы хотите разместить карту (конец) -->
+			</div>
+		</div>
+		
+		<div class="wide_block mtop pr">
+			<h2 class="mbottom">Отправить сообщение администратору</h2>
+			{% include "feedback/form.html" %}
+		</div>
+	</div>
+{% endblock %}

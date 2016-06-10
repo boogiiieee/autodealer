@@ -1,0 +1,42 @@
+{% extends "cabinet/cabinet.html" %}
+{% load thumbnail %}
+
+{% block content %}
+	<h1><a class="orange" href="/cabinet/for-dealer/">Категории информации</a> <span class="blue">{{ dsc.title }}</span></h1>
+	<div class="area">
+		<a href="/cabinet/for-dealer/{{ dsc.id }}/add/"><h4 class="mbottom">Добавить запись</h4></a>
+		
+		{% if dsic_list %}
+			<div>
+				<div class="mbottom">
+					{% for item in dsic_list %}
+						<p>
+							{% ifequal ds item.dealer %}<a class="none_underl" href="/cabinet/for-dealer/{{ dsc.id }}/{{ item.id }}/">{% endifequal %}
+								<h3>{{ item.date|date:"d.m.Y H:m" }}</h3>
+							{% ifequal ds item.dealer %}</a>{% endifequal %}
+							<div>{{ item.text }}</div>
+							{% if item.category.is_main %}
+								{% if item.f or item.i or item.o %}
+									<div><strong>ФИО:</strong> {{ item.f }} {{ item.i }} {{ item.o }}</div>
+								{% endif %}
+								{% if item.npas or item.spas %}
+									<div><strong>Паспорт:</strong> {{ item.npas }} {{ item.spas }}</div>
+								{% endif %}
+								{% if ite.rdate %}
+									<div><strong>Дата рождения:</strong> {{ item.rdat|date:"d.m.Y" }}</div>
+								{% endif %}
+							{% endif %}
+							{% ifequal ds item.dealer %}
+								<a class="orange" href="/cabinet/for-dealer/{{ dsc.id }}/edit/{{ item.id }}/">редактировать</a>
+								<a class="orange" href="/cabinet/for-dealer/{{ dsc.id }}/del/{{ item.id }}/" onclick="return confirm('Вы уверены?')">удалить</a>
+							{% endifequal %}
+						</p>
+					{% endfor %}
+				</div>
+				{% include "paginate.html" %}
+			</div>
+		{% else %}
+			<h4>В категорий нет информации</h4>
+		{% endif %}
+	</div>
+{% endblock%}

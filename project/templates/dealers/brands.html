@@ -1,0 +1,50 @@
+{% extends "default.html" %}
+{% load project_tags %}
+
+{% block title %}Каталог дилеров{% endblock %}
+
+{% block script %}
+	<script type="text/javascript">
+		$(function(){
+			var so = new SWFObject("{{ MEDIA_URL }}flash/logo.swf", "flash_logo", "40", "40", "8", "#ffffff");
+			so.addParam("wmode", "transparent");
+			so.write("flash_logo");
+		});
+	</script>
+{% endblock %}
+
+{% block content %}
+	<h1>Каталог дилеров {% if request.town %}<a class="blue" href="/change-town/">{{ request.town }}</a>{% endif %}</h1>
+	<div class="area">
+		{% if items %}
+			<table class="cols">
+				<tr>
+					<td valign="top">
+						{% for brand in items.col1 %}
+							{% ifchanged brand.title.0 %}<h4>{{ brand.title.0 }}</h4>{% endifchanged %}
+							<a class="none_underl {% if brand.is_popular %}btext{% endif %}" href="/brand/{{ brand.slug }}/"><h3>{{ brand.title }} <span>({{ brand|get_count_dealers_in_town:request.town }})</span></h3></a>
+						{% endfor %}
+					</td>
+					<td valign="top">
+						{% for brand in items.col2 %}
+							{% ifchanged brand.title.0 %}<h4>{{ brand.title.0 }}</h4>{% endifchanged %}
+							<a class="none_underl {% if brand.is_popular %}btext{% endif %}" href="/brand/{{ brand.slug }}/"><h3>{{ brand.title }} <span>({{ brand|get_count_dealers_in_town:request.town }})</span></h3></a>
+						{% endfor %}
+					</td>
+					<td valign="top">
+						{% for brand in items.col3 %}
+							{% ifchanged brand.title.0 %}<h4>{{ brand.title.0 }}</h4>{% endifchanged %}
+							<a class="none_underl {% if brand.is_popular %}btext{% endif %}" href="/brand/{{ brand.slug }}/"><h3>{{ brand.title }} <span>({{ brand|get_count_dealers_in_town:request.town }})</span></h3></a>
+						{% endfor %}
+					</td>
+				</tr>
+			</table>
+		{% else %}
+			<h4>Раздел в разработке</h4>
+		{% endif %}
+		
+		<!--div class="wide_block mtop pr">
+			Рад приветствовать всех тех, кто интересуется автомобилем Citroen c4 new. Сразу расскажу предысторию.  До этого ездил почти 6 лет на ВАЗ 21011 1981 года, мучился много с ней под конец появилась возможность купить новый авто за наличные. 23 апреля 2012 года после долгих раздумий и выбора авто до 700 т.р. мой выбор пал на Citroen c4. Свою роль в этом сыграло многое, но наверно самое главное цена - мне авто досталось по большой скидке, так как в салоне работал свой человек. Короче купил я tendance с пакетом auto АКПП в тёмно сером цвете за 685 т.р. это со страховками, КАСКО, сервисным контрактом на 3 года и всеми оформлениями в ГАИ. Обкатку я почти не проходил, сразу ездил быстро, не удержался) Проездил я на нём 42 дня и 3 июня попал в аварию. Моей вины не было, виновник ДТП выехал мне наперерез на трассе. Я так же ехал быстро - 143 км/ч. Удар был очень сильный, но никто не погиб. Сработали фронтальные подушки безопасности, преднатяжители ремней безопасности. Машина проявила себя с позиции безопасности на отлично, даже лобовое стекло не разбилось, только потрескалось. Салон вообще не пострадал, все двери открывались как ни в чём не бывало. Короче я был впечатлён если честно. Потом начались тяжбы со страховой, долго и нужно... Одним словом в конце июля я получил почти полную стоимость авто по каско, разбитую машину отдал страховой. 
+		</div-->
+	</div>
+{% endblock%}

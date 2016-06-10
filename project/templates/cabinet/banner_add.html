@@ -1,0 +1,15 @@
+{% extends "cabinet/cabinet.html" %}
+
+{% block content %}
+	<h1><a class="orange" href="/cabinet/bb/">Баннеры дилера</a> <span class="blue">Добавить баннер</span></h1>
+	<div class="area">
+		<div class="markItUp">
+			<form id="account" action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+				<table>
+					{{ aform.as_table }}
+				</table>
+				<input type="submit" value="Сохранить" />
+			</form>
+		</div>
+	</div>
+{% endblock%}

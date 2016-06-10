@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% load thumbnail %}
+{% load markup %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>{% block title %}{% endblock %}</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<link rel="SHORTCUT ICON" href="{{ MEDIA_URL }}img/favicon.ico" type="image/x-icon">
+		
+		<meta name="keywords" content="дилеры,диллеры,авто,купить авто,автосалон,авто салон" />
+		<meta name="description" content="Ассоциация дилеров. Все официальные дилеры Томска." />
+		
+		<meta name='yandex-verification' content='4632917a6a836016' />
+		
+		<link rel="stylesheet" href="{{ MEDIA_URL }}css/default.css" type="text/css" media="screen, projection" />
+		<link rel="stylesheet" href="{{ MEDIA_URL }}css/text.css" type="text/css" media="screen, projection" />
+		
+		<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.5.2.min.js"></script>
+		<script type="text/javascript" src="{{ MEDIA_URL }}js/swfobject.js"></script>
+		
+		<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/markitup/skins/markitup/style.css" />
+		<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/markitup/sets/markdown/style.css" />
+		<script type="text/javascript" src="{{ MEDIA_URL }}js/markitup/jquery.markitup.js"></script>
+		<script type="text/javascript" src="{{ MEDIA_URL }}js/markitup/sets/markdown/set.js"></script>
+		<script>
+			$(function() {
+				$('.markItUp textarea').markItUp(mySettings);
+			});
+		</script>
+		
+		{% block ext_js %}<script type="text/javascript" src="{{ MEDIA_URL }}js/js_for_form.js"></script>{% endblock %}
+		
+		{% block script %}{% endblock %}
+		
+		<script type="text/javascript">
+
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-32718314-2']);
+		  _gaq.push(['_setDomainName', 'auto-dealer.info']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+
+		</script>
+	</head>
+	
+	<body>
+		<div id="towns">
+			<div class="wrapper">
+				<a class="collapse" href="#" onclick="return show_change_town()">Свернуть</a>
+				<div class="clr">&nbsp;</div>
+				<ul>
+					{% for town in towns %}
+						<li>
+							<a href="/change-town/?i={{ town.id }}"
+								{% if request.town %}
+									{% ifequal request.town.id town.id %}class="active"{% endifequal %}
+								{% endif %}
+							>
+								{{ town.title }}
+							</a>
+						</li>
+					{% endfor %}
+					<li><a href="/change-town/">Другой</a></li>
+				</ul>
+			</div>
+		</div>
+				
+		<div class="wrapper">
+			<div id="header">
+				<a href="/" id="logo">
+					<div id="flash_logo">
+						<img src="{{ MEDIA_URL }}img/logo.png" alt="Ассоциация дилеров" />
+					</div>
+					<div class="title">Ассоциация дилеров</div>
+				</a>
+				
+				<div id="location">
+					<div>{% if request.town %}{{ request.town }}{% else %}Неизвестный город{% endif %}</div>
+					<div><a class="icon" href="#" onclick="return show_change_town()">&nbsp;</a></div>
+				</div>
+				
+				<div id="menu" {% if not request.user.is_authenticated %}class="short_menu"{% endif %}>
+					<ul>
+						<li class="first {% ifequal a 1 %}active{% endifequal %}"><a href="/">Дилеры</a></li>
+						{% if request.user.is_authenticated %}
+							<li {% ifequal a 2 %}class="active"{% endifequal %}><a href="/for-dealers/">Для дилера</a></li>
+							<li {% ifequal a 3 %}class="active"{% endifequal %}><a href="/cabinet/">Личный кабинет</a></li>
+						{% else %}
+							<li {% ifequal a 4 %}class="active"{% endifequal %}><a href="/how-registration/">Как стать участником</a></li>
+						{% endif %}
+						<li class="last {% ifequal a 5 %}active{% endifequal %}"><a href="/information/">Информация</a></li>
+					</ul>
+				</div>
+				<div class="clr">&nbsp;</div>
+				
+				<div id="search" class="wide_block">
+					<form action="/search/" method="get">
+						{% for field in sform %}
+							<div class="col">
+								<h6>{{ field.label }}</h6>
+								{{ field }}
+							</div>
+						{% endfor %}
+						<div class="col">
+							<input type="submit" value="Найти дилера" />
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div id="middle">
+				<div id="container">
+					<div id="content">
+						{% if messages %}
+							<div class="mbottom">
+								<ul class="messagelist">
+									{% for message in messages %}
+										<li><h2>{{ message }}</h2></li>
+									{% endfor %}
+								</ul>
+							</div>
+						{% endif %}
+					
+						{% block content %}{% endblock %}
+					</div>
+				</div>
+
+				<div class="sidebar" id="sideRight">
+					{% if request.user.is_authenticated %}
+						<div class="ablock row">
+							<div class="icon lock">&nbsp;</div>
+							<a href="/logout/">Закрыть кабинет</a>
+						</div>
+					{% else %}
+						<div class="ablock row">
+							<div class="icon lock">&nbsp;</div>
+							<a href="/login/">Вход для дилеров</a>
+						</div>
+					{% endif %}
+					<div class="clr">&nbsp;</div>
+					
+					{% block right %}
+						{% if blogs %}
+							<div class="row">
+								{% for blog in blogs %}
+									<a class="nunderline" href="{{ blog.get_item_url }}">{{ blog.text|striptags|force_escape|truncatewords:"15"|markdown }}</a>
+									{% if not forloop.last %}<div class="dunderline">&nbsp;</div>{% endif %}
+								{% endfor %}
+							</div>
+							<div class="clr">&nbsp;</div>
+						{% endif %}
+						
+						{% if banners %}
+							{% for banner in banners %}
+								<div id="banner_flash_{{ banner.id }}" class="rownb r1border">
+									{% if banner.image %}
+										{% if banner.site %}<a href="{{ banner.site }}" title="{{ banner.title }}" target="_blank">{% endif %}
+											{% thumbnail banner.image "250" crop="center" format='PNG' as im %}
+												<img src="{{ im.url }}" alt="{{ banner.title }}" />
+											{% endthumbnail %}
+										{% if banner.site %}</a>{% endif %}
+									{% endif %}
+								</div>
+								{% if banner.flash %}
+									<script type="text/javascript">
+										var so_{{ banner.id }} = new SWFObject("{{ banner.flash.url }}", "banner_flash_{{ banner.id }}", "{{ banner.width }}", "{{ banner.height }}", "8", "#ffffff");
+										so_{{ banner.id }}.addParam("wmode", "transparent");
+										so_{{ banner.id }}.write("banner_flash_{{ banner.id }}");
+									</script>
+								{% endif %}
+							{% endfor %}
+							<div class="clr">&nbsp;</div>
+						{% endif %}
+					{% endblock %}
+				</div>
+			</div>
+
+		</div>
+
+		<div id="footer">
+			<div class="line">
+				<div class="wrapper">
+					<div class="col first">
+						Ассоциация дилеров дает возможность дилерам обмениваться информацией. Также, auto-dealer.info является рекламной площадкой, на которой можно размещать рекламные баннеры, новости, информацию об акциях и скидках, информацию об автосалоне.
+					</div>
+					<div class="col">
+						<ul>
+							<ul>
+								<li {% ifequal a 1 %}class="active"{% endifequal %}><a href="/">Дилеры</a></li>
+								{% if request.user.is_authenticated %}
+									<li {% ifequal a 2 %}class="active"{% endifequal %}><a href="/for-dealers/">Для дилера</a></li>
+									<li {% ifequal a 3 %}class="active"{% endifequal %}><a href="/cabinet/">Личный кабинет</a></li>
+								{% else %}
+									<li {% ifequal a 4 %}class="active"{% endifequal %}><a href="/how-registration/">Как стать участником</a></li>
+								{% endif %}
+								<li {% ifequal a 5 %}class="active"{% endifequal %}><a href="/information/">Информация</a></li>
+								<li {% ifequal a 6 %}class="active"{% endifequal %}><a href="/feedback/">Обратная связь</a></li>
+								<li {% ifequal a 7 %}class="active"{% endifequal %}><a href="/contacts/">Контакты</a></li>
+							</ul>
+						</ul>
+					</div>
+					<div class="col">
+						<b>Адрес:</b> 634055, г. Томск ул. Московский тракт 2 стр.7<br/>
+						<b>Часы работы:</b> 09:00 - 18:00 (пн-пт)<br/>
+						<b>Телефон:</b>  8-913-888-444-0<br/>
+						<b>E-mail:</b> <a class="blue" href="mailto:GladkiyVA@gmail.com">GladkiyVA@gmail.com</a>
+					</div>
+					<div class="clr">&nbsp;</div>
+				</div>
+			</div>
+			
+			<div class="line">
+				<div class="wrapper">
+					<a id="copy" href="/">© 2012 auto-dealer.info. Все права защищены.</a>
+					<a id="web" href="http://web-aspect.ru">Разработка сайта: web-aspect.ru</a>
+				</div>
+			</div>
+		</div>
+		
+		<script>
+			function show_change_town(){
+				$("#towns").slideToggle();
+				return false;
+			}
+		</script>
+	</body>
+</html>

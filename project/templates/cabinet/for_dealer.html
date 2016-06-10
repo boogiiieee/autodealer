@@ -1,0 +1,30 @@
+{% extends "cabinet/cabinet.html" %}
+{% load thumbnail %}
+
+{% block content %}
+	<h1>Категории информации</h1>
+	<div class="area">
+		<a href="/cabinet/for-dealer/add/"><h4 class="mbottom">Добавить категорию</h4></a>
+		
+		{% if dsc_list %}
+			<div>
+				<div class="mbottom">
+					{% for item in dsc_list %}
+						<p>
+							<a class="none_underl" href="/cabinet/for-dealer/{{ item.id }}/"><h3>{{ item.title }}</h3></a>
+							<a class="orange" href="/cabinet/for-dealer/{{ item.id }}/">информация</a>
+							<a class="orange" href="/cabinet/for-dealer/bookmark/{{ item.id }}/">В закладки</a>
+							{% ifequal ds item.dealer %}
+								<a class="orange" href="/cabinet/for-dealer/edit/{{ item.id }}/">редактировать</a>
+								<a class="orange" href="/cabinet/for-dealer/del/{{ item.id }}/" onclick="return confirm('Вы уверены?')">удалить</a>
+							{% endifequal %}
+						</p>
+					{% endfor %}
+				</div>
+				{% include "paginate.html" %}
+			</div>
+		{% else %}
+			<h4>Категорий информации нет</h4>
+		{% endif %}
+	</div>
+{% endblock%}

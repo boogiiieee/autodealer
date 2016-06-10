@@ -1,0 +1,52 @@
+{% extends "default.html" %}
+{% load markup %}
+
+{% block title %}Для дилера{% endblock %}
+
+{% block content %}
+	<h1><a class="orange" href="/for-dealers/">Информация для дилера</a> <span class="blue">{{ cs.title }}</span></h1>
+	<div class="area">
+		<a href="/cabinet/for-dealer/bookmark/{{ cs.id }}/"><h4 class="mbottom">Добавить в закладки</h4></a>
+		
+		{% if dsic_list %}
+			<div>
+				<div class="mbottom">
+					{% for item in dsic_list %}
+						<p>
+							<h3>{{ item.date|date:"d.m.Y H:m" }}</h3>
+							<div>{{ item.text|force_escape|markdown }}</div>
+							{% if item.category.is_main %}
+								{% if item.f or item.i or item.o %}
+									<div><strong>ФИО:</strong> {{ item.f }} {{ item.i }} {{ item.o }}</div>
+								{% endif %}
+								{% if item.npas or item.spas %}
+									<div><strong>Паспорт:</strong> {{ item.npas }} {{ item.spas }}</div>
+								{% endif %}
+								{% if ite.rdate %}
+									<div><strong>Дата рождения:</strong> {{ item.rdat|date:"d.m.Y" }}</div>
+								{% endif %}
+							{% endif %}
+						</p>
+					{% endfor %}
+				</div>
+				{% include "paginate.html" %}
+			</div>
+		{% else %}
+			<h4>В категорий нет информации</h4>
+		{% endif %}
+		
+		<div id="search" class="wide_block mtop pr" style="padding:0 20px 0 0;">
+			<form action="/for-dealers/search/" method="get">
+				{% for field in siform %}
+					<div class="col">
+						<h6>{{ field.label }}</h6>
+						{{ field }}
+					</div>
+				{% endfor %}
+				<div class="col">
+					<input type="submit" value="Найти информацию" />
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock%}

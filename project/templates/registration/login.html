@@ -1,0 +1,36 @@
+{% extends "default.html" %}
+
+{% block title %}Авторизация{% endblock %}
+
+{% block content %}
+	<h1>Вход для дилера</h1>
+	<div class="area">
+		{% if form.errors %}
+			<div class="errorlist">Некорректное имя пользователя или пароль</div>
+		{% endif %}
+		
+		<div>
+			<form id="auth" action="" method="post">{% csrf_token %}
+				<div class="col" style="margin-left:0px">
+					<h6>Логин</h6>
+					{{ form.username }}
+				</div>
+				<div class="col">
+					<h6>Пароль</h6>
+					{{ form.password }}
+				</div>
+				<div class="col">
+					<input type="submit" value="Войти" />
+				</div>
+				<input type="hidden" name="next" value="/cabinet/in/">
+			</form>
+			
+			<div class="clr">&nbsp;</div>
+			<a href="/password/reset/">Забыли пароль?</a>
+		</div>
+	
+		<div class="wide_block mtop pr">
+			Введите логин и пароль выданный Вам администрацией сайта. Если, после ввода пароля, появляется сообщение об ошибке, проверьте регистр вводимых данных и раскладку клавиатуры. Если ошибка повторяется, то свяжитесь с администратором сайта по <a href="/feedback/">этой ссылке</a>. 
+		</div>
+	</div>
+{% endblock %}

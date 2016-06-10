@@ -1,0 +1,39 @@
+{% extends "cabinet/cabinet.html" %}
+{% load thumbnail %}
+
+{% block content %}
+	<h1>Баннеры дилера</h1>
+	<div class="area">
+		<a href="/cabinet/bb/add/"><h4 class="mbottom">Добавить баннер</h4></a>
+		
+		{% if dsbb_list %}
+			<div>
+				<div class="mbottom">
+					{% for banner in dsbb_list %}
+						<p>
+							<a class="none_underl" href="{{ banner.get_admin_url }}"><h3>{{ banner.title }} {% if not banner.is_active %}(неактивен){% endif %}</h3></a>
+							<div id="abanner_flash_{{ banner.id }}">
+								{% if banner.image %}
+									{% thumbnail banner.image "250" crop="center" format='PNG' as im %}
+										<img src="{{ im.url }}" alt="{{ banner.title }}" />
+									{% endthumbnail %}
+								{% endif %}
+							</div>
+							<a class="orange" href="{{ banner.get_admin_url }}">редактировать</a>
+						</p>
+						{% if banner.flash %}
+							<script type="text/javascript">
+								var aso_{{ banner.id }} = new SWFObject("{{ banner.flash.url }}", "abanner_flash_{{ banner.id }}", "250", "200", "8", "#ffffff");
+								aso_{{ banner.id }}.addParam("wmode", "transparent");
+								aso_{{ banner.id }}.write("abanner_flash_{{ banner.id }}");
+							</script>
+						{% endif %}
+					{% endfor %}
+				</div>
+				{% include "paginate.html" %}
+			</div>
+		{% else %}
+			<h4>Баннеров нет</h4>
+		{% endif %}
+	</div>
+{% endblock%}

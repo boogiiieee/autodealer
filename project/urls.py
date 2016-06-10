@@ -1,0 +1,56 @@
+from django.conf.urls.defaults import *
+from django.conf import settings
+
+urlpatterns = patterns('project.views',
+	url(r'^$', 'brands'),
+	url(r'^brand/(?P<slug>[a-zA-Z0-9-_]+)/$', 'dealers'),
+	url(r'^dealer/(?P<bid>[0-9]+)/(?P<id>[0-9]+)/(?P<slug>[a-zA-Z0-9-_]+)/$', 'dealer'),
+	url(r'^dealer/(?P<id>[0-9]+)/(?P<slug>[a-zA-Z0-9-_]+)/$', 'dealer'),
+	url(r'^blog/(?P<id>[0-9]+)/(?P<slug>[a-zA-Z0-9-_]+)/$', 'blog', name='blog_item_url'),
+	
+	url(r'^how-registration/$', 'how_registration'),
+	url(r'^information/$', 'information'),
+	url(r'^contacts/$', 'contacts'),
+	
+	url(r'^search/$', 'search'),
+	url(r'^change-town/$', 'change_town'),
+	url(r'^feedback/$', 'feedback'),
+	
+	url(r'^for-dealers/$', 'for_dealers'),
+	url(r'^for-dealers/(?P<id>[0-9]+)/(?P<slug>[a-zA-Z0-9-_]+)/$', 'for_dealers_info'),
+	url(r'^for-dealers/search/$', 'for_dealers_search'),
+
+	url(r'^cabinet/in/$', 'cabinet_in'),
+	url(r'^cabinet/license/$', 'cabinet_license'),
+	url(r'^cabinet/$', 'cabinet'),
+	url(r'^cabinet/passwd/$', 'cabinet_passwd'),
+	url(r'^cabinet/pay/$', 'cabinet_pay'),
+	url(r'^cabinet/blog/$', 'cabinet_blog'),
+	url(r'^cabinet/blog/add/$', 'cabinet_blog_add'),
+	url(r'^cabinet/blog/(?P<id>[0-9]+)/$', 'cabinet_blog_edit', name='blog_admin_url'),
+	url(r'^cabinet/blog/del/(?P<id>[0-9]+)/$', 'cabinet_blog_del'),
+	url(r'^cabinet/bb/$', 'cabinet_banner'),
+	url(r'^cabinet/bb/add/$', 'cabinet_banner_add'),
+	url(r'^cabinet/bb/(?P<id>[0-9]+)/$', 'cabinet_banner_edit', name='banner_admin_url'),
+	url(r'^cabinet/bb/del/(?P<id>[0-9]+)/$', 'cabinet_banner_del'),
+	url(r'^cabinet/for-dealer/$', 'cabinet_for_dealer'),
+	url(r'^cabinet/for-dealer/add/$', 'cabinet_for_dealer_add'),
+	url(r'^cabinet/for-dealer/edit/(?P<id>[0-9]+)/$', 'cabinet_for_dealer_edit'),
+	url(r'^cabinet/for-dealer/del/(?P<id>[0-9]+)/$', 'cabinet_for_dealer_del'),
+	url(r'^cabinet/for-dealer/bookmark/(?P<id>[0-9]+)/$', 'cabinet_for_dealer_bookmark'),
+	url(r'^cabinet/for-dealer/(?P<id>[0-9]+)/$', 'cabinet_for_dealer_info'),
+	url(r'^cabinet/for-dealer/(?P<id>[0-9]+)/add/$', 'cabinet_for_dealer_info_add'),
+	url(r'^cabinet/for-dealer/(?P<cid>[0-9]+)/edit/(?P<id>[0-9]+)/$', 'cabinet_for_dealer_info_edit'),
+	url(r'^cabinet/for-dealer/(?P<cid>[0-9]+)/del/(?P<id>[0-9]+)/$', 'cabinet_for_dealer_info_del'),
+	url(r'^cabinet/bookmark/$', 'cabinet_bookmark'),
+	url(r'^cabinet/bookmark/del/(?P<id>[0-9]+)/$', 'cabinet_bookmark_del'),
+	url(r'^cabinet/partner/$', 'cabinet_partner'),
+	url(r'^cabinet/partner/add/(?P<id>[0-9]+)/$', 'cabinet_partner_add'),
+	url(r'^cabinet/partner/del/(?P<id>[0-9]+)/$', 'cabinet_partner_del'),
+	url(r'^cabinet/message/$', 'cabinet_messages'),
+	url(r'^cabinet/message/(?P<id>[0-9]+)/$', 'cabinet_message'),
+)
+
+urlpatterns += patterns('',
+	url(r'^robots\.txt$', 'django.views.static.serve', {'path':"/robots.txt", 'document_root':settings.MEDIA_ROOT, 'show_indexes': False}),
+)

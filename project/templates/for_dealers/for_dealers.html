@@ -1,0 +1,54 @@
+{% extends "default.html" %}
+
+{% block title %}Для дилера{% endblock %}
+
+{% block content %}
+	<h1>Информация для дилера</h1>
+	<div class="area">
+		{% if items %}
+			<table class="cols">
+				<tr>
+					<td valign="top">
+						{% for catalog in items.col1 %}
+							{% ifchanged catalog.title.0 %}<h4>{{ catalog.title.0 }}</h4>{% endifchanged %}
+							<a class="none_underl {% if catalog.is_main %}btext{% endif %}" href="/for-dealers/{{ catalog.id }}/{{ catalog.slug }}/"><h3>{{ catalog.title }} <span>({{ catalog.get_active_items.count }})</span></h3></a>
+						{% endfor %}
+					</td>
+					<td valign="top">
+						{% for catalog in items.col2 %}
+							{% ifchanged catalog.title.0 %}<h4>{{ catalog.title.0 }}</h4>{% endifchanged %}
+							<a class="none_underl {% if catalog.is_main %}btext{% endif %}" href="/for-dealers/{{ catalog.id }}/{{ catalog.slug }}/"><h3>{{ catalog.title }} <span>({{ catalog.get_active_items.count }})</span></h3></a>
+						{% endfor %}
+					</td>
+					<td valign="top">
+						{% for catalog in items.col3 %}
+							{% ifchanged catalog.title.0 %}<h4>{{ catalog.title.0 }}</h4>{% endifchanged %}
+							<a class="none_underl {% if catalog.is_main %}btext{% endif %}" href="/for-dealers/{{ catalog.id }}/{{ catalog.slug }}/"><h3>{{ catalog.title }} <span>({{ catalog.get_active_items.count }})</span></h3></a>
+						{% endfor %}
+					</td>
+				</tr>
+			</table>
+		{% else %}
+			<h4>Раздел в разработке</h4>
+		{% endif %}
+		
+		<div id="search" class="wide_block mtop pr" style="padding:0 20px 0 0;">
+			<form action="/for-dealers/search/" method="get">
+				{% for field in siform %}
+					<div class="col">
+						<h6>{{ field.label }}</h6>
+						{{ field }}
+					</div>
+				{% endfor %}
+				<div class="col">
+					<input type="submit" value="Найти информацию" />
+				</div>
+			</form>
+		</div>
+		
+		<div class="wide_block mtop pr">
+			<strong>Уважаемые дилеры!</strong> Просим Вас принимать активное участие. Размещайте полезную информацию. <!--Дилерам, которые только пользуются информацией, не размещая новой, будет закрыт доступ к разделу "Информация для дилера".--><br/>
+			Вместе мы сделаем нашу работу эффективнее!
+		</div>
+	</div>
+{% endblock %}

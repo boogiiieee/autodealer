@@ -1,0 +1,32 @@
+{% extends "cabinet/cabinet.html" %}
+
+{% block ext_js %}{% endblock %}
+
+{% block content %}
+	<h1><a class="orange" href="/cabinet/blog/">Блог дилера</a> <span class="blue">Редактировать запись</span></h1>
+	<div class="area">
+		<a href="/cabinet/blog/del/{{ dsb.id }}/" onclick="return confirm('Вы уверены?')"><h4 class="mbottom">Удалить запись</h4></a>
+		
+		<form id="account" action="" method="post">{% csrf_token %}
+			<div class="mbottom">
+				<div class="markItUp">
+					<table>
+						{{ aform.as_table }}
+					</table>
+				</div>
+				<input type="submit" value="Сохранить" />
+			</div>
+			
+			<h2 class="mbottom">Комментарии</h2>
+			{{ aformset.management_form }}
+			{% for aaform in aformset.forms %}
+				<div class="mbottom">
+					<table>
+						{{ aaform.as_table }}
+					</table>
+					<input type="submit" value="Сохранить" />
+				</div>
+			{% endfor %}
+		</form>
+	</div>
+{% endblock%}

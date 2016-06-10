@@ -1,0 +1,40 @@
+{% load i18n %}
+{% load pymorphy_tags %}
+
+<h3>{{ title|capfirst }}</h3>
+
+<ul>
+{% for choice in choices %}
+	{% ifequal choice.type 'new_date_filter' %}
+		<li>
+			{% if choice.grouper %}
+				<a href="" onclick="return openbox('elm_{{ choice.id }}_{{ forloop.counter }}')"><strong>{{ choice.grouper }}</strong></a>
+				<ul id="elm_{{ choice.id }}_{{ forloop.counter }}" {% if not choice.selected %}style="display:none;"{% endif %}>
+					{% for month in choice.month %}
+						<li{% if month.selected %} class="selected"{% endif %}>
+							<a href="{{ month.query_string|iriencode }}">{{ month.display }}</a>
+						</li>
+					{% endfor %}
+				</ul>
+			{% else %}
+				<a href="{{ choice.month.query_string|iriencode }}">{{ choice.month.display }}</a>
+			{% endif %}
+		</li>
+	{% else %}
+		<li{% if choice.selected %} class="selected"{% endif %}>
+		<a href="{{ choice.query_string|iriencode }}">{{ choice.display }}</a></li>
+	{% endifequal %}
+{% endfor %}
+</ul>
+
+<script>
+	function openbox(id){
+		var elm = document.getElementById(id);
+		if(elm.style.display == 'none'){
+			elm.style.display='block';
+		}else{
+			elm.style.display='none';
+		}
+		return false;
+	}
+</script>

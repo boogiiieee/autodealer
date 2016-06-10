@@ -1,0 +1,26 @@
+{% extends "cabinet/cabinet.html" %}
+{% load markup %}
+
+{% block content %}
+	<h1>Блог дилера</h1>
+	<div class="area">
+		<a href="/cabinet/blog/add/"><h4 class="mbottom">Добавить запись</h4></a>
+		
+		{% if dsb_list %}
+			<div>
+				<div class="mbottom">
+					{% for item in dsb_list %}
+						<p>
+							<a class="none_underl" href="{{ item.get_admin_url }}"><h3>{{ item.title }} <small>| {{ item.date|date:"d.m.Y H:m" }} {% if item.get_no_active_comments %}<span>(новых комментариев: {{ item.get_no_active_comments }}){% endif %}</span></small></h3></a>
+							<a class="orange" href="{{ item.get_admin_url }}">редактировать</a>
+							{{ item.text|force_escape|markdown|truncatewords:"15" }}
+						</p>
+					{% endfor %}
+				</div>
+				{% include "paginate.html" %}
+			</div>
+		{% else %}
+			<h4>Записей нет</h4>
+		{% endif %}
+	</div>
+{% endblock%}

@@ -1,0 +1,23 @@
+{% extends "cabinet/cabinet.html" %}
+{% load project_tags %}
+
+{% block content %}
+	<h1>Диалоги дилера</h1>
+	<div class="area">
+		{% if dsm_list %}
+			<div>
+				<div class="mbottom">
+					{% for item in dsm_list %}
+						<p>
+							<a class="none_underl" href="/cabinet/message/{{ item.id }}/"><h3>{{ item.title }} {% if item|new_messages:ds %}({{ item|new_messages:ds }}){% endif %}</h3></a>
+							<a class="orange" href="/cabinet/message/{{ item.id }}/">посмотреть диалог</a>
+						</p>
+					{% endfor %}
+				</div>
+				{% include "paginate.html" %}
+			</div>
+		{% else %}
+			<h4>Диалогов нет</h4>
+		{% endif %}
+	</div>
+{% endblock%}

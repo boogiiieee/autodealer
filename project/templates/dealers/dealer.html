@@ -1,0 +1,70 @@
+{% extends "default.html" %}
+{% load thumbnail %}
+{% load markup %}
+
+{% block title %}Каталог дилеров{% endblock %}
+
+{% block content %}
+	<h1><a class="orange" href="/">Каталог дилеров</a> <a class="orange" href="/brand/{{ brand.slug }}/">{{ brand.title }}</a> <span class="blue">{{ dealer.title }}</span></h1>
+	<div class="area">
+		{% if request.user.is_authenticated %}
+			{% ifnotequal dealer.user.id request.user.id %}
+				<a href="/cabinet/partner/add/{{ dealer.id }}/"><h4 class="mbottom">Добавить в партнеры</h4></a>
+				<a href="/cabinet/message/{{ dealer.id }}/"><h4 class="mbottom">Написать сообщение</h4></a>
+			{% endifnotequal %}
+		{% endif %}
+		
+		{% if dealer.image or dealer.text or dealer.adr or dealer.phone or dealer.email %}
+			<div class="mbottom">
+				{% if dealer.image %}
+					<div class="r1border leftimg">
+						{% thumbnail dealer.image "250" crop="center" format='PNG' as im %}
+							<img src="{{ im.url }}" alt="{{ dealer.title }}" />
+						{% endthumbnail %}
+					</div>
+				{% endif %}
+
+				{% if dealer.adr %}
+					<div>
+						<strong>Адрес:</strong> {{ dealer.adr }}
+					</div>
+				{% endif %}
+				{% if dealer.phone %}
+					<div>
+						<strong>Телефон:</strong> {{ dealer.phone }}
+					</div>
+				{% endif %}
+				{% if dealer.email %}
+					<div>
+						<strong>E-mail:</strong> {{ dealer.email }}
+					</div>
+				{% endif %}
+				<div class="clr">&nbsp;</div>
+				
+				{% if dealer.text %}
+					<div class="dunderline">&nbsp;</div>
+					<div>
+						{{ dealer.text|force_escape|markdown }}
+					</div>
+				{% endif %}
+			</div>
+			
+			{% if blogs_list %}
+				<div class="wide_block mtop pr">
+					<h2 class="mbottom">Блог</h2>
+					<div class="mbottom">
+						{% for item in blogs_list %}
+							<div class="mbottom">
+								<a class="none_underl" href="{{ item.get_item_url }}"><h3>{{ item.title }} <small>| {{ item.date|date:"d.m.Y H:m" }}</small></h3></a>
+								{{ item.text|striptags|force_escape|truncatewords:"15"|markdown }}
+							</div>
+						{% endfor %}
+					</div>
+					{% include "paginate.html" %}
+				</div>
+			{% endif %}
+		{% else %}
+			<h4>Раздел в разработке</h4>
+		{% endif %}
+	</div>
+{% endblock%}

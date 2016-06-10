@@ -1,0 +1,24 @@
+{% extends "cabinet/cabinet.html" %}
+{% load thumbnail %}
+
+{% block content %}
+	<h1>Закладки</h1>
+	<div class="area">
+		{% if dsbm_list %}
+			<div>
+				<div class="mbottom">
+					{% for item in dsbm_list %}
+						<p>
+							<a class="none_underl" href="/cabinet/for-dealer/{{ item.category.id }}/"><h3>{{ item.category.title }}</h3></a>
+							<a class="orange" href="/cabinet/for-dealer/{{ item.category.id }}/">информация</a>
+							<a class="orange" href="/cabinet/bookmark/del/{{ item.id }}/" onclick="return confirm('Вы уверены?')">удалить</a>
+						</p>
+					{% endfor %}
+				</div>
+				{% include "paginate.html" %}
+			</div>
+		{% else %}
+			<h4>Закладок нет</h4>
+		{% endif %}
+	</div>
+{% endblock%}

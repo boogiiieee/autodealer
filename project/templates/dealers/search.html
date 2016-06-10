@@ -1,0 +1,20 @@
+{% extends "default.html" %}
+
+{% block title %}Каталог дилеров{% endblock %}
+
+{% block content %}
+	<h1><a class="orange" href="/">Каталог дилеров</a> <span class="blue">Результаты поиска</span></h1>
+	<div class="area">
+		{% if dealsers_list %}
+			<div class="cols mbottom">
+				{% for dealer in dealsers_list %}
+					{% ifchanged dealer.title.0 %}<h4>{{ dealer.title.0 }}</h4>{% endifchanged %}
+					<a class="none_underl" href="/dealer/{{ dealer.id }}/{{ dealer.slug }}/"><h3>{{ dealer.title }}</h3></a>
+				{% endfor %}
+			</div>
+			{% include "paginate.html" %}
+		{% else %}
+			<h4>Ничего не найдено</h4>
+		{% endif %}
+	</div>
+{% endblock%}
